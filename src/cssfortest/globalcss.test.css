@@ -2,7 +2,7 @@
     --maxWidth: 1280px;
     --white: #fff;
     --light: #eee;
-    --medGrey: #353535;
+    --medGrey: #8a8888;
     --darkGrey: #b0adad;
     --fontSuperBig: 2.5rem;
     --fontBig: 1.5rem;
@@ -10,6 +10,7 @@
     --fontSmall: 1rem;
     --maxSize :100px;
     --colortext: rgb(248, 14, 14);
+    --black: rgba(5, 5, 5, 0.067);
 }
 
 *{

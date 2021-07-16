@@ -10,10 +10,11 @@ const initialState = {
 };
 
 export const useHomeFetch = () => {
+    const [search,setSearch] = useState('');  // search( state is init ).
     const [ state,setState] = useState(initialState);
     const [loading,setLoading] = useState(false);
     const [error,setError] = useState(false);
-
+ 
     //fetch the movie
     const fetchMovies = async(page,searchTerm="")=>{
        try{
@@ -41,9 +42,12 @@ export const useHomeFetch = () => {
 }
 
 //side Effect hook, icludes about side effect, clean up ( in return()), dependecies (in [])
+// to initial and search the movie
 useEffect( () => {
-    fetchMovies(1)
-},[]) 
+    setState(initialState); // when the first mouting is render random array movies.
+    fetchMovies(1,search); // search state changes will renders new movies in page 1, and the main image will render the fist in new array movies.
 
-return {state,loading,error}
+},[search]) //if search (is state) changes ( its maybe changed in searchbars) the homepage will fetch the new array movies.
+
+return {state,loading,error,setSearch,search}
 }
