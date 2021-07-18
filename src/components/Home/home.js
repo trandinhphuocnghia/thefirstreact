@@ -13,14 +13,21 @@ import Grid from '../Grids/index'
 import Thumb from '../Thumb/index'
 import Spinner from '../Spinner'
 import SearchBar from '../searchbar/index'
+import Button from '../Button/index'
+
+const Title = 'React Movie'
+//the class return components
 const Home = () =>{
-    const {state,loading,error,setSearch,search} = useHomeFetch()
+    const {state,loading,error,setSearch,search,SetIsLoadMore} = useHomeFetch()
   
 
  console.log(state)
+
+ 
  
  return (
  <>
+ <title>{Title}</title>
  {state.results[0] ?
  <MainImage
   image = {`${IMAGE_BASE_URL}${BACKDROP_SIZE}${state.results[0].backdrop_path}`}
@@ -41,11 +48,10 @@ const Home = () =>{
 
  ))}
 </Grid>
-<Spinner/>
+ {loading && <Spinner/>} 
 
- 
-
-
+ {state.page < state.total_pages && !loading && 
+ (<Button text="Load More" callback={() => SetIsLoadMore(true) }/>)}
  </>
 
     )

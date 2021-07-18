@@ -2,7 +2,7 @@ import React from 'react'
 //Styles
 import { Wrapper,Content } from '../Grids/Grids.style'
 
-//Grid func with props objects {headers,children}
+//Grid func with props objects {headers,children}, return the componets
 const Grid = ({headers,children}) => (
     //Components
     <Wrapper>

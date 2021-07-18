@@ -1,10 +1,15 @@
 import React from 'react'
 import { Image } from './Thumb.style'
-
+import {Link} from 'react-router-dom'
 //arrow func with props
 const Thumb = ({image,movieId,clickable})=>(
     <div>
-        <Image src={image} alt='movie-thumb'/> 
+        {clickable ? (<Link to={`/${movieId}`}>  <Image src={image} alt='movie-thumb'/>  </Link> ) 
+        : ( <Image src={image} alt='movie-thumb'/> )}
+      
+       
+      
+        
     </div>
 
 )

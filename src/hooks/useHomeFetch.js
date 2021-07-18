@@ -11,20 +11,22 @@ const initialState = {
 
 export const useHomeFetch = () => {
     const [search,setSearch] = useState('');  // search( state is init ).
-    const [ state,setState] = useState(initialState);
+    const [state,setState] = useState(initialState); // page state (in the begin = initialState)
     const [loading,setLoading] = useState(false);
     const [error,setError] = useState(false);
+    const [isLoadMore,SetIsLoadMore] = useState(false);//set useState() with two props and the init is boolean: false .
  
     //fetch the movie
-    const fetchMovies = async(page,searchTerm="")=>{
+    const fetchMovies = async(page,search="")=>{
        try{
+        setError(false); 
           setLoading(true);
-          setError(false);
+         
 
-          const movies = await API.fetchMovies(searchTerm,page);
+          const movies = await API.fetchMovies(search,page);
           
 
-          setState(prev => ({
+          setState(prev => ({ //setState tra ve 1 oject {...movies,results}, initialState thanh prev
             // thao tác vs arr ( mảng ) , ... định nghĩa mảng movies vs các thành phần riêng lẻ.
             ...movies,
             
@@ -39,15 +41,24 @@ export const useHomeFetch = () => {
     }
 
     setLoading(false)
+    SetIsLoadMore(false)
+    
 }
-
 //side Effect hook, icludes about side effect, clean up ( in return()), dependecies (in [])
 // to initial and search the movie
-useEffect( () => {
-    setState(initialState); // when the first mouting is render random array movies.
-    fetchMovies(1,search); // search state changes will renders new movies in page 1, and the main image will render the fist in new array movies.
-
+useEffect( () => { // the effect for fetch and search
+  document.title = "React Movie"  
+  setState(initialState); // when the first mouting is render random array movies.
+   
+  fetchMovies(1,search); // search state changes will renders new movies in page 1, and the main image will render the fist in new array movies.}
+ 
 },[search]) //if search (is state) changes ( its maybe changed in searchbars) the homepage will fetch the new array movies.
 
-return {state,loading,error,setSearch,search}
+useEffect(()=>{
+  if(!isLoadMore) return;
+  return fetchMovies(state.page+1,search)
+ // SetIsLoadMore(false);
+},[isLoadMore,search,state])
+
+return {state,loading,error,setSearch,search,SetIsLoadMore}
 }
