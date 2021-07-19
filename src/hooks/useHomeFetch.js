@@ -1,5 +1,6 @@
 import  {useState,useEffect} from 'react';
 import API from '../API';
+import { Sessionstorage } from '../helpers';
 
 //trạng thái ban đầu khi chưa render
 const initialState = {
@@ -47,7 +48,18 @@ export const useHomeFetch = () => {
 //side Effect hook, icludes about side effect, clean up ( in return()), dependecies (in [])
 // to initial and search the movie
 useEffect( () => { // the effect for fetch and search
+  //set the title of page 
   document.title = "React Movie"  
+
+  //check the search if mouting set session storage.
+   if(!search){
+     const sessionStorage = Sessionstorage('home');
+
+     if(sessionStorage){
+       setState(sessionStorage)
+       return
+     }
+   }
   setState(initialState); // when the first mouting is render random array movies.
    
   fetchMovies(1,search); // search state changes will renders new movies in page 1, and the main image will render the fist in new array movies.}
@@ -59,6 +71,14 @@ useEffect(()=>{
   return fetchMovies(state.page+1,search)
  // SetIsLoadMore(false);
 },[isLoadMore,search,state])
+
+
+//write session
+useEffect(() =>{
+  if(!search){
+  sessionStorage.setItem('home',JSON.stringify(state))}
+},[search,state])
+
 
 return {state,loading,error,setSearch,search,SetIsLoadMore}
 }
